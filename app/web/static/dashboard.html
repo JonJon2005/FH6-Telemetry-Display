@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090a0c">
+  <title>FH6 Live Dashboard</title>
+  <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+  <header class="dash-header">
+    <a class="brand" href="/dashboard" aria-label="FH6 live dashboard">
+      <span class="brand-mark">FH6</span><span class="brand-divider">/</span><span>Telemetry</span>
+    </a>
+    <div class="header-status" aria-live="polite">
+      <span id="connection-light" class="status-light"></span>
+      <strong id="connection-label">Waiting for telemetry</strong>
+      <span id="header-rate">0 pkt/s</span>
+    </div>
+    <nav class="header-actions" aria-label="Dashboard controls">
+      <button id="unit-toggle" class="text-button" type="button" aria-label="Change speed units">MPH</button>
+      <button id="fullscreen-button" class="icon-button" type="button" aria-label="Enter fullscreen" title="Fullscreen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>
+      </button>
+      <a class="text-link" href="/debug">Debug</a>
+    </nav>
+  </header>
+
+  <main class="dashboard-grid">
+    <section class="panel instruments" aria-labelledby="instruments-title">
+      <h1 id="instruments-title" class="sr-only">Primary instruments</h1>
+      <div class="speed-block">
+        <span id="speed-value" class="speed-value">0</span>
+        <span id="speed-unit" class="speed-unit">MPH</span>
+      </div>
+      <div class="gear-block">
+        <span class="instrument-label">GEAR</span>
+        <strong id="gear-value" class="gear-value">—</strong>
+      </div>
+      <div class="rpm-block">
+        <div class="rpm-readout"><span><strong id="rpm-value">0</strong> RPM</span><span id="rpm-limit">/ 0</span></div>
+        <div id="rev-lights" class="rev-lights" aria-label="Engine RPM percentage"></div>
+      </div>
+      <dl class="power-strip">
+        <div><dt>POWER</dt><dd><span id="power-value">0</span> hp</dd></div>
+        <div><dt>TORQUE</dt><dd><span id="torque-value">0</span> lb-ft</dd></div>
+        <div><dt>BOOST</dt><dd><span id="boost-value">0.0</span> psi</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel race-panel" aria-labelledby="race-title">
+      <div class="panel-title"><h2 id="race-title">Race</h2><span id="race-mode" class="mode-label">FREE ROAM</span></div>
+      <div class="race-primary">
+        <div><span>POSITION</span><strong id="race-position">—</strong></div>
+        <div><span>LAP</span><strong id="lap-number">—</strong></div>
+      </div>
+      <dl class="time-list">
+        <div><dt>Current</dt><dd id="current-lap">--:--.---</dd></div>
+        <div><dt>Last</dt><dd id="last-lap">--:--.---</dd></div>
+        <div><dt>Best</dt><dd id="best-lap">--:--.---</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel inputs-panel" aria-labelledby="inputs-title">
+      <div class="panel-title"><h2 id="inputs-title">Driver inputs</h2><span>LIVE</span></div>
+      <div class="input-bars">
+        <div class="input-line throttle"><span>THR</span><div class="input-track"><i id="throttle-bar"></i></div><strong id="throttle-value">0</strong></div>
+        <div class="input-line brake"><span>BRK</span><div class="input-track"><i id="brake-bar"></i></div><strong id="brake-value">0</strong></div>
+        <div class="input-line"><span>CLT</span><div class="input-track"><i id="clutch-bar"></i></div><strong id="clutch-value">0</strong></div>
+        <div class="input-line"><span>HBR</span><div class="input-track"><i id="handbrake-bar"></i></div><strong id="handbrake-value">0</strong></div>
+      </div>
+      <div class="steering-readout">
+        <div class="steering-label"><span>STEERING</span><strong id="steering-value">0%</strong></div>
+        <div class="steering-track"><span class="steering-center"></span><i id="steering-marker"></i></div>
+        <div class="steering-range"><span>L</span><span>R</span></div>
+      </div>
+    </section>
+
+    <section class="panel tires-panel" aria-labelledby="tires-title">
+      <div class="panel-title"><h2 id="tires-title">Tire temperature</h2><button id="temp-toggle" type="button" class="mini-button" aria-label="Change temperature units">°C</button></div>
+      <div class="tire-layout">
+        <div id="tire-fl" class="tire-readout front-left"><span>FL</span><strong>—</strong><small>°C</small></div>
+        <div id="tire-fr" class="tire-readout front-right"><span>FR</span><strong>—</strong><small>°C</small></div>
+        <div class="car-plan" aria-hidden="true"><span class="car-front">▲</span><i></i><b></b></div>
+        <div id="tire-rl" class="tire-readout rear-left"><span>RL</span><strong>—</strong><small>°C</small></div>
+        <div id="tire-rr" class="tire-readout rear-right"><span>RR</span><strong>—</strong><small>°C</small></div>
+      </div>
+    </section>
+
+    <section class="panel motion-panel" aria-labelledby="motion-title">
+      <div class="panel-title"><h2 id="motion-title">G meter</h2><span>ESTIMATED</span></div>
+      <div class="g-meter" aria-label="Estimated lateral and longitudinal G force">
+        <span class="axis horizontal"></span><span class="axis vertical"></span>
+        <span class="axis-label top">ACCEL</span><span class="axis-label bottom">BRAKE</span>
+        <span class="axis-label left">LEFT</span><span class="axis-label right">RIGHT</span>
+        <i id="g-dot"></i>
+      </div>
+      <div class="g-values"><span>LAT <strong id="lateral-g">+0.00</strong> g</span><span>LONG <strong id="longitudinal-g">+0.00</strong> g</span></div>
+    </section>
+
+    <section class="panel connection-panel" aria-labelledby="connection-title">
+      <div class="panel-title"><h2 id="connection-title">Connection</h2><span id="socket-state">CONNECTING</span></div>
+      <dl class="connection-data">
+        <div><dt>Source</dt><dd id="source-value">—</dd></div>
+        <div><dt>Packet rate</dt><dd id="packet-rate">0.0 /s</dd></div>
+        <div><dt>Packet size</dt><dd id="packet-size">—</dd></div>
+        <div><dt>Last packet</dt><dd id="last-packet">—</dd></div>
+      </dl>
+      <div class="connection-links"><a href="/debug">Open parser diagnostics</a><span id="sequence-value">SEQ 0</span></div>
+    </section>
+  </main>
+
+  <div id="stale-overlay" class="stale-overlay visible" role="status" aria-live="polite">
+    <strong>WAITING FOR FH6</strong><span>Start driving to receive telemetry</span>
+  </div>
+  <script src="/static/dashboard.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FH6 Telemetry Diagnostics</title>
+  <link rel="stylesheet" href="/static/debug.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="header-identity">
+      <a class="brand" href="/dashboard" aria-label="FH6 main dashboard"><span class="brand-mark">FH6</span><span class="brand-divider">/</span><span>Diagnostics</span></a>
+      <span class="header-description">Parser and network inspection</span>
+    </div>
+    <div class="status-group">
+      <span id="udp-status" class="pill neutral">UDP starting</span>
+      <span id="telemetry-status" class="pill neutral">Telemetry waiting</span>
+      <span id="socket-status" class="pill neutral">UI connecting</span>
+      <a class="dashboard-link" href="/dashboard">Main dashboard</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="guidance" class="guidance">Starting the diagnostic service…</section>
+
+    <section class="summary-grid">
+      <article class="panel connection-panel">
+        <div class="panel-heading"><h2>Connection</h2><span id="rate" class="metric-accent">0.0 pkt/s</span></div>
+        <dl class="facts">
+          <div><dt>Listening</dt><dd id="bind">—</dd></div><div><dt>Xbox / sender</dt><dd id="sender">—</dd></div>
+          <div><dt>Packets</dt><dd id="packet-count">0</dd></div><div><dt>Latest size</dt><dd id="packet-size">—</dd></div>
+          <div><dt>Observed sizes</dt><dd id="packet-sizes">—</dd></div><div><dt>Last packet</dt><dd id="last-packet">—</dd></div>
+          <div><dt>Dashboard on LAN</dt><dd id="network-url">—</dd></div><div><dt>FH6 Data Out target</dt><dd id="fh6-target">—</dd></div>
+          <div><dt>Selected adapter</dt><dd id="network-adapter">—</dd></div><div><dt>Address source</dt><dd id="network-source">—</dd></div>
+        </dl>
+      </article>
+
+      <article class="panel speed-panel">
+        <p class="instrument-title">SPEED</p><div class="hero-number"><span id="speed">—</span><small>mph</small></div>
+        <p id="speed-kmh" class="secondary-value">— km/h</p>
+      </article>
+
+      <article class="panel gear-panel">
+        <p class="instrument-title">GEAR</p><div id="gear" class="gear">—</div>
+        <div class="rpm-line"><span id="rpm">— rpm</span><span id="rpm-max">max —</span></div>
+        <div class="bar"><i id="rpm-bar"></i></div>
+      </article>
+    </section>
+
+    <section class="live-grid">
+      <article class="panel"><div class="panel-heading"><h2>Driver inputs</h2><span id="race-on" class="tag">Race —</span></div><div id="inputs" class="input-list"></div></article>
+      <article class="panel"><div class="panel-heading"><h2>Tire temperatures</h2><span class="muted">live</span></div><div id="tires" class="tire-grid"></div></article>
+      <article class="panel"><div class="panel-heading"><h2>Motion & power</h2></div><dl id="motion" class="facts compact"></dl></article>
+      <article class="panel"><div class="panel-heading"><h2>Race state</h2></div><dl id="race" class="facts compact"></dl></article>
+    </section>
+
+    <section class="panel validation-panel">
+      <div class="panel-heading"><div><h2>Parser health</h2><p id="validation-title" class="validation-summary">Waiting for a recognized packet</p></div><div id="check-counts" class="check-counts">—</div></div>
+      <p class="muted">Parser <span id="parser-version">—</span> · unknown packets <span id="unknown-count">0</span> · parse errors <span id="error-count">0</span></p>
+      <ul id="issues" class="issues"><li>No validation results yet.</li></ul>
+    </section>
+
+    <section class="inspect-grid">
+      <article class="panel raw-panel"><div class="panel-heading"><h2>Raw packet</h2><span class="muted">hex + ASCII · 16 bytes/row</span></div><pre id="raw-hex">Waiting for a packet…</pre></article>
+      <article class="panel table-panel">
+        <div class="panel-heading table-tools"><div><h2>All decoded fields</h2><span id="field-count" class="muted">0 fields</span></div><input id="field-filter" type="search" placeholder="Filter fields…" aria-label="Filter fields"></div>
+        <div class="table-scroll"><table><thead><tr><th>Field</th><th>Raw value</th><th>Decoded value</th><th>Offset</th><th>Type</th><th>Source unit</th><th>Confidence</th></tr></thead><tbody id="field-rows"></tbody></table></div>
+      </article>
+    </section>
+  </main>
+  <script src="/static/debug.js" defer></script>
+</body>
+</html>

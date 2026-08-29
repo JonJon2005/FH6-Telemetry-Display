@@ -1,0 +1,167 @@
+:root {
+  color-scheme: dark;
+  --bg: #090a0c;
+  --surface: #111317;
+  --surface-raised: #171a1f;
+  --line: #2a2e35;
+  --line-strong: #3a4049;
+  --text: #f4f5f6;
+  --muted: #9298a2;
+  --red: #ff3b30;
+  --green: #36d37e;
+  --amber: #ffb020;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); }
+a, input { font: inherit; }
+h1, h2, p { margin: 0; }
+
+.topbar {
+  min-height: 64px;
+  padding: 10px clamp(14px, 3vw, 38px);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  background: #0d0f12;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.header-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  text-decoration: none;
+  text-transform: uppercase;
+  font: 700 .88rem Bahnschrift, "Arial Narrow", sans-serif;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+.brand-mark { display: grid; place-items: center; height: 30px; padding: 0 9px; background: var(--red); color: white; font-size: 1rem; font-weight: 900; letter-spacing: -.02em; }
+.brand-divider { color: var(--red); font-weight: 900; }
+.header-description { color: var(--muted); font-size: .72rem; white-space: nowrap; }
+.status-group { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; }
+.pill, .tag, .dashboard-link {
+  min-height: 30px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  padding: 6px 9px;
+  display: inline-flex;
+  align-items: center;
+  background: #15181c;
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+.pill.good { color: var(--green); border-color: #286c46; }
+.pill.bad { color: #ff756d; border-color: #74342f; }
+.pill.warn { color: var(--amber); border-color: #735a24; }
+.dashboard-link { margin-left: 4px; border-color: var(--red); color: white; }
+.dashboard-link:hover { background: var(--red); }
+.brand:focus-visible, .dashboard-link:focus-visible, input:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+
+main { width: min(1540px, calc(100% - 24px)); margin: 12px auto 42px; }
+.guidance { border: 1px solid #5b4b27; border-left: 3px solid var(--amber); background: #17150f; padding: 10px 13px; margin-bottom: 12px; color: #ddd6c5; font-size: .8rem; }
+.panel { position: relative; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 2px; padding: 16px; overflow: hidden; }
+.panel::before { content: ""; position: absolute; left: -1px; top: 15px; width: 3px; height: 28px; background: #4b5058; }
+.panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+.panel-heading h2 { font: 700 .84rem Bahnschrift, "Arial Narrow", sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+.metric-accent { color: var(--green); font: 700 .82rem ui-monospace, Consolas, monospace; }
+.muted { color: var(--muted); font-size: .72rem; }
+
+.summary-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
+.connection-panel::before, .validation-panel::before { background: var(--red); }
+.facts { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px 18px; }
+.facts div { min-width: 0; }
+.facts dt { margin-bottom: 3px; color: var(--muted); font-size: .6rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.facts dd { margin: 0; font-size: .82rem; overflow-wrap: anywhere; }
+
+.speed-panel, .gear-panel { border-color: var(--line-strong); }
+.speed-panel::before, .gear-panel::before { background: var(--red); }
+.instrument-title { color: var(--muted); font: 700 .62rem Bahnschrift, "Arial Narrow", sans-serif; letter-spacing: .13em; }
+.hero-number { display: flex; align-items: baseline; gap: 9px; margin-top: 13px; }
+.hero-number span { font: 900 clamp(4.5rem, 7vw, 7rem)/.78 Bahnschrift, "Arial Narrow", sans-serif; letter-spacing: -.07em; }
+.hero-number small { color: var(--muted); font: 700 .7rem Bahnschrift, "Arial Narrow", sans-serif; letter-spacing: .1em; }
+.secondary-value { color: var(--muted); margin-top: 14px; font: 700 .78rem ui-monospace, Consolas, monospace; }
+.gear { margin: 9px 0 13px; font: 900 5.6rem/.85 Bahnschrift, "Arial Narrow", sans-serif; }
+.rpm-line { display: flex; justify-content: space-between; color: var(--muted); font: 650 .68rem ui-monospace, Consolas, monospace; }
+.bar { height: 9px; margin-top: 7px; background: #272b31; overflow: hidden; }
+.bar i { display: block; width: 0; height: 100%; background: var(--red); transition: width 70ms linear; }
+
+.live-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+.input-list { display: grid; gap: 10px; }
+.input-row { display: grid; grid-template-columns: 76px 1fr 48px; align-items: center; gap: 8px; font-size: .72rem; }
+.input-row .bar { margin: 0; }
+.input-row i { background: var(--green); }
+.tire-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.tire { border: 1px solid var(--line); background: var(--surface-raised); padding: 10px; }
+.tire strong { display: block; font: 800 1.15rem Bahnschrift, "Arial Narrow", sans-serif; }
+.tire small { color: var(--muted); font-size: .67rem; }
+.compact { grid-template-columns: 1fr 1fr; }
+
+.validation-panel { margin-top: 10px; }
+.validation-summary { margin-top: 5px; color: var(--muted); font-size: .78rem; }
+.check-counts { color: var(--muted); font: 700 .78rem ui-monospace, Consolas, monospace; }
+.issues { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.issues li { border-left: 3px solid var(--amber); padding: 7px 10px; background: #191712; font-size: .78rem; }
+.issues li.error { border-color: var(--red); background: #211211; }
+.issues li.info { border-color: #6e747d; background: #16191d; }
+.good-text { color: var(--green); }
+.bad-text { color: #ff756d; }
+
+.inspect-grid { display: grid; grid-template-columns: minmax(300px, .72fr) minmax(600px, 1.8fr); gap: 10px; margin-top: 10px; }
+.raw-panel pre { margin: 0; max-height: 620px; overflow: auto; color: #cbd0d6; background: #090b0e; border: 1px solid #20242a; padding: 12px; font: 11px/1.55 ui-monospace, "Cascadia Mono", Consolas, monospace; }
+.table-tools input { width: min(250px, 46%); border: 1px solid var(--line-strong); border-radius: 2px; background: #0b0d10; color: var(--text); padding: 8px 10px; }
+.table-scroll { max-height: 620px; overflow: auto; border: 1px solid #20242a; }
+table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: .7rem; }
+th { position: sticky; top: 0; z-index: 1; text-align: left; background: #1b1e23; color: var(--muted); font-size: .61rem; letter-spacing: .05em; text-transform: uppercase; }
+th, td { padding: 8px 9px; border-bottom: 1px solid #252930; }
+td:first-child { color: #e6e8ea; font-weight: 700; }
+tbody tr:hover { background: #171a1f; }
+tr.issue-row td:first-child { color: var(--amber); }
+.confidence { color: var(--muted); font-size: .6rem; }
+
+@media (max-width: 1100px) {
+  .summary-grid { grid-template-columns: 2fr 1fr; }
+  .connection-panel { grid-row: 1 / span 2; }
+  .speed-panel { grid-row: 1; }
+  .gear-panel { grid-column: 2; }
+  .live-grid { grid-template-columns: 1fr 1fr; }
+  .inspect-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .topbar { position: static; align-items: flex-start; flex-direction: column; }
+  .header-description { display: none; }
+  .status-group { justify-content: flex-start; }
+  .dashboard-link { order: -1; margin: 0 4px 0 0; }
+  .summary-grid, .live-grid { grid-template-columns: 1fr; }
+  .connection-panel, .gear-panel, .speed-panel { grid-column: auto; grid-row: auto; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .inspect-grid { display: block; }
+  .inspect-grid .panel + .panel { margin-top: 10px; }
+  .hero-number span { font-size: 5.2rem; }
+}
+
+@media (max-width: 410px) {
+  main { width: calc(100% - 16px); margin-top: 8px; }
+  .topbar { padding: 9px 10px; }
+  .pill { font-size: .61rem; padding: 5px 6px; }
+  .facts { grid-template-columns: 1fr; }
+  .panel { padding: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
