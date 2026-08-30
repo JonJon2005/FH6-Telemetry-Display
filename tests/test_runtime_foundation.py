@@ -23,6 +23,7 @@ from tools.replay_capture import CaptureReader
 
 TEST_ADAPTER = AdapterAddress("192.168.1.205", "Ethernet", 4, 10, 25, True, "test")
 TEST_NETWORK = NetworkDiscovery(TEST_ADAPTER, (TEST_ADAPTER,), ())
+LOCAL_CAPTURE = Path(__file__).parents[1] / "captures" / "first-drive.fh6cap"
 
 
 def test_config_file_is_created_and_environment_wins(tmp_path, monkeypatch) -> None:
@@ -174,8 +175,8 @@ def test_session_ends_at_last_packet_after_timeout(tmp_path) -> None:
         assert sessions[0]["duration_seconds"] < 0.05
 
 
+@pytest.mark.skipif(not LOCAL_CAPTURE.exists(), reason="local user capture is not present")
 def test_first_real_capture_records_multiple_samples(tmp_path) -> None:
-    capture_path = Path(__file__).parents[1] / "captures" / "first-drive.fh6cap"
     paths = AppPaths.from_base(tmp_path / "capture-profile")
     settings = Settings(
         udp_host="127.0.0.1",
@@ -189,7 +190,7 @@ def test_first_real_capture_records_multiple_samples(tmp_path) -> None:
         port = int(app.state.telemetry.bound_address.rsplit(":", 1)[1])
         sender = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
-            with CaptureReader(capture_path) as reader:
+            with CaptureReader(LOCAL_CAPTURE) as reader:
                 for index, packet in enumerate(reader):
                     if index == 50:
                         break
