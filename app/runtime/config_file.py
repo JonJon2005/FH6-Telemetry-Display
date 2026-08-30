@@ -43,6 +43,17 @@ def load_settings(paths: AppPaths, *, save_migration: bool = True) -> Settings:
     return Settings.from_env(defaults)
 
 
+def update_config(paths: AppPaths, values: dict[str, object]) -> None:
+    """Update a few saved values without replacing the rest of the config."""
+    current = _read_config(paths.config_file) if paths.config_file.exists() else {
+        "version": CONFIG_VERSION,
+        **asdict(Settings()),
+    }
+    current["version"] = CONFIG_VERSION
+    current.update(values)
+    _write_config(paths.config_file, current)
+
+
 def _read_config(path: Path) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))

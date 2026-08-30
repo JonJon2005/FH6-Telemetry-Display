@@ -1,3 +1,12 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
+
+[project]
+name = "fh6-telemetry-display"
+version = "0.10.0"
+requires-python = ">=3.12"
+
+[project.scripts]
+fh6-telemetry = "app.main:main"
+fh6-telemetry-tray = "app.tray:main"

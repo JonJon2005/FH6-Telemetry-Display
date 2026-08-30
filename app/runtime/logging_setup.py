@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from logging.handlers import RotatingFileHandler
+import sys
 
 from app.config import Settings
 from .paths import AppPaths
@@ -21,10 +22,11 @@ def configure_logging(paths: AppPaths, settings: Settings) -> None:
             root.removeHandler(handler)
             handler.close()
 
-    console = logging.StreamHandler()
-    console.setFormatter(formatter)
-    console._fh6_managed = True  # type: ignore[attr-defined]
-    root.addHandler(console)
+    if sys.stderr is not None:
+        console = logging.StreamHandler()
+        console.setFormatter(formatter)
+        console._fh6_managed = True  # type: ignore[attr-defined]
+        root.addHandler(console)
 
     file_handler = RotatingFileHandler(
         # Old files are rotated so logs cannot grow forever.

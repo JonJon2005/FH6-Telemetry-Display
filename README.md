@@ -20,6 +20,10 @@ This is the first testable milestone for a Windows-first, self-hosted Forza Hori
 
 The first two desktop-runtime steps are complete: the service now records durable driving sessions and has the configuration, logging, ownership, and graceful-shutdown foundation needed for packaging. Analytics UI and deployment packaging remain later phases.
 
+The Windows tray build is now available as a portable `FH6 Telemetry.exe` with
+run-at-sign-in settings, local/LAN quick links, port controls, and background
+service status. See [the Windows tray app guide](docs/windows-tray-app.md).
+
 See [the protocol research](docs/fh6-protocol-research.md) for the current 324-byte finding and unresolved protocol conflicts.
 
 The decoder API, model structure, conversion policy, and intentionally unresolved fields are documented in [the parser guide](docs/fh6-parser.md).
@@ -39,6 +43,12 @@ Session boundaries, exports, permanent data locations, log rotation, configurati
 ```powershell
 pip install -r requirements.txt
 python -m app.main
+```
+
+For the tray experience while developing, install the requirements and run:
+
+```powershell
+python -m app.tray
 ```
 
 Open <http://localhost:50415>. It redirects to the main dashboard. The parser/network engineering view remains at <http://localhost:50415/debug>. FH6 on Xbox should still send to this PC's LAN IPv4 address on UDP port `20440`. Close `udp_probe.py` first because only one process can listen on that port.
