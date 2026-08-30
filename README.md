@@ -5,6 +5,8 @@ dashboard that can be viewed on the same PC or any device on the local network.
 The Windows application runs quietly in the notification area, records driving
 sessions in the background, and does not require Python or an installer.
 
+![FH6 Telemetry live dashboard](example.jpeg)
+
 ## Features
 
 - Live speed, RPM, gear, throttle, brake, steering, clutch, and handbrake data
