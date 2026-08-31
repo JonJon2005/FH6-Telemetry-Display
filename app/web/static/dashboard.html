@@ -16,9 +16,13 @@
       <span id="connection-light" class="status-light"></span>
       <strong id="connection-label">Waiting for telemetry</strong>
       <span id="header-rate">0 pkt/s</span>
+      <time id="local-clock" class="local-clock" aria-label="Local computer time" aria-live="off" hidden>--:--:--</time>
     </div>
     <nav class="header-actions" aria-label="Dashboard controls">
       <button id="unit-toggle" class="text-button" type="button" aria-label="Change speed units">MPH</button>
+      <button id="customize-button" class="icon-button" type="button" aria-label="Customize dashboard" aria-controls="customizer" aria-expanded="false" title="Customize dashboard">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg>
+      </button>
       <button id="fullscreen-button" class="icon-button" type="button" aria-label="Enter fullscreen" title="Fullscreen">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>
       </button>
@@ -26,12 +30,22 @@
     </nav>
   </header>
 
-  <main class="dashboard-grid">
-    <section class="panel instruments" aria-labelledby="instruments-title">
+  <main id="dashboard-grid" class="dashboard-grid">
+    <section class="panel instruments" data-panel-id="instruments" data-panel-label="Speedometer" aria-labelledby="instruments-title">
       <h1 id="instruments-title" class="sr-only">Primary instruments</h1>
-      <div class="speed-block">
-        <span id="speed-value" class="speed-value">0</span>
-        <span id="speed-unit" class="speed-unit">MPH</span>
+      <div class="speed-display">
+        <div id="digital-speedometer" class="speed-block digital-speedometer">
+          <span id="speed-value" class="speed-value">0</span>
+          <span id="speed-unit" class="speed-unit">MPH</span>
+        </div>
+        <div id="analog-speedometer" class="analog-speedometer" aria-label="Analog speedometer">
+          <div class="speed-dial">
+            <div id="analog-ticks" class="analog-ticks" aria-hidden="true"></div>
+            <i id="speed-needle" class="speed-needle" aria-hidden="true"></i>
+            <span class="dial-hub" aria-hidden="true"></span>
+            <div class="analog-readout"><strong id="analog-speed-value">0</strong><span id="analog-speed-unit">MPH</span></div>
+          </div>
+        </div>
       </div>
       <div class="gear-block">
         <span class="instrument-label">GEAR</span>
@@ -41,14 +55,14 @@
         <div class="rpm-readout"><span><strong id="rpm-value">0</strong> RPM</span><span id="rpm-limit">/ 0</span></div>
         <div id="rev-lights" class="rev-lights" aria-label="Engine RPM percentage"></div>
       </div>
-      <dl class="power-strip">
+      <dl id="power-strip" class="power-strip">
         <div><dt>POWER</dt><dd><span id="power-value">0</span> hp</dd></div>
         <div><dt>TORQUE</dt><dd><span id="torque-value">0</span> lb-ft</dd></div>
         <div><dt>BOOST</dt><dd><span id="boost-value">0.0</span> psi</dd></div>
       </dl>
     </section>
 
-    <section class="panel race-panel" aria-labelledby="race-title">
+    <section class="panel race-panel" data-panel-id="race" data-panel-label="Race" aria-labelledby="race-title">
       <div class="panel-title"><h2 id="race-title">Race</h2><span id="race-mode" class="mode-label">FREE ROAM</span></div>
       <div class="race-primary">
         <div><span>POSITION</span><strong id="race-position">—</strong></div>
@@ -61,7 +75,7 @@
       </dl>
     </section>
 
-    <section class="panel inputs-panel" aria-labelledby="inputs-title">
+    <section class="panel inputs-panel" data-panel-id="inputs" data-panel-label="Driver inputs" aria-labelledby="inputs-title">
       <div class="panel-title"><h2 id="inputs-title">Driver inputs</h2><span>LIVE</span></div>
       <div class="input-bars">
         <div class="input-line throttle"><span>THR</span><div class="input-track"><i id="throttle-bar"></i></div><strong id="throttle-value">0</strong></div>
@@ -76,7 +90,7 @@
       </div>
     </section>
 
-    <section class="panel tires-panel" aria-labelledby="tires-title">
+    <section class="panel tires-panel" data-panel-id="tires" data-panel-label="Tire temperature" aria-labelledby="tires-title">
       <div class="panel-title"><h2 id="tires-title">Tire temperature</h2><button id="temp-toggle" type="button" class="mini-button" aria-label="Change temperature units">°C</button></div>
       <div class="tire-layout">
         <div id="tire-fl" class="tire-readout front-left"><span>FL</span><strong>—</strong><small>°C</small></div>
@@ -87,7 +101,7 @@
       </div>
     </section>
 
-    <section class="panel motion-panel" aria-labelledby="motion-title">
+    <section class="panel motion-panel" data-panel-id="motion" data-panel-label="G meter" aria-labelledby="motion-title">
       <div class="panel-title"><h2 id="motion-title">G meter</h2><span>ESTIMATED</span></div>
       <div class="g-meter" aria-label="Estimated lateral and longitudinal G force">
         <span class="axis horizontal"></span><span class="axis vertical"></span>
@@ -98,7 +112,7 @@
       <div class="g-values"><span>LAT <strong id="lateral-g">+0.00</strong> g</span><span>LONG <strong id="longitudinal-g">+0.00</strong> g</span></div>
     </section>
 
-    <section class="panel connection-panel" aria-labelledby="connection-title">
+    <section class="panel connection-panel" data-panel-id="connection" data-panel-label="Connection" aria-labelledby="connection-title">
       <div class="panel-title"><h2 id="connection-title">Connection</h2><span id="socket-state">CONNECTING</span></div>
       <dl class="connection-data">
         <div><dt>Source</dt><dd id="source-value">—</dd></div>
@@ -109,6 +123,45 @@
       <div class="connection-links"><a href="/debug">Open parser diagnostics</a><span id="sequence-value">SEQ 0</span></div>
     </section>
   </main>
+
+  <button id="customizer-scrim" class="customizer-scrim" type="button" aria-label="Close dashboard customization" tabindex="-1"></button>
+  <aside id="customizer" class="customizer" aria-labelledby="customizer-title" aria-hidden="true" inert>
+    <div class="customizer-header">
+      <div><span>DISPLAY SETUP</span><h2 id="customizer-title">Customize dashboard</h2></div>
+      <button id="customizer-close" class="icon-button" type="button" aria-label="Close customization" title="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+    </div>
+    <div class="customizer-content">
+      <section class="settings-section" aria-labelledby="display-settings-title">
+        <h3 id="display-settings-title">Display</h3>
+        <label class="setting-field" for="speedometer-mode"><span><strong>Speedometer</strong><small>Choose the primary speed display.</small></span>
+          <select id="speedometer-mode"><option value="digital">Digital</option><option value="analog">Analog</option></select>
+        </label>
+        <label class="switch-setting" for="clock-toggle"><span><strong>Realtime clock</strong><small>Uses this device's system time.</small></span><input id="clock-toggle" type="checkbox"><i aria-hidden="true"></i></label>
+        <label class="switch-setting" for="power-toggle"><span><strong>Engine output</strong><small>Show power, torque, and boost.</small></span><input id="power-toggle" type="checkbox"><i aria-hidden="true"></i></label>
+      </section>
+
+      <section class="settings-section" aria-labelledby="color-settings-title">
+        <div class="settings-heading"><h3 id="color-settings-title">Colors</h3><span>LIVE PREVIEW</span></div>
+        <div class="color-grid">
+          <label for="accent-color"><span>Accent</span><input id="accent-color" type="color" value="#ff3b30"></label>
+          <label for="background-color"><span>Background</span><input id="background-color" type="color" value="#090a0c"></label>
+          <label for="panel-color"><span>Panels</span><input id="panel-color" type="color" value="#111317"></label>
+          <label for="text-color"><span>Text</span><input id="text-color" type="color" value="#f4f5f6"></label>
+        </div>
+      </section>
+
+      <section class="settings-section" aria-labelledby="panel-settings-title">
+        <div class="settings-heading"><div><h3 id="panel-settings-title">Panels</h3><p>Drag rows or use the arrows to rearrange the dashboard.</p></div><span>AUTO-SAVED</span></div>
+        <ol id="panel-settings" class="panel-settings"></ol>
+      </section>
+    </div>
+    <div class="customizer-footer">
+      <button id="reset-customization" class="reset-button" type="button">Reset to defaults</button>
+      <span id="settings-saved" role="status" aria-live="polite">Saved on this device</span>
+    </div>
+  </aside>
 
   <div id="stale-overlay" class="stale-overlay visible" role="status" aria-live="polite">
     <strong>WAITING FOR FH6</strong><span>Start driving to receive telemetry</span>

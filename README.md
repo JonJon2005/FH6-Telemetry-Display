@@ -13,6 +13,8 @@ sessions in the background, and does not require Python or an installer.
 - G-force, acceleration, position, lap, race, drivetrain, and vehicle data
 - Individual tire temperature, slip, suspension, and wheel readings
 - Responsive dashboard for desktop, mobile, and landscape tablets
+- Per-device dashboard customization with saved colors, panel order, and data visibility
+- Digital and analog speedometer modes with an optional realtime system clock
 - Windows notification-area application with no console window
 - Left-click Settings and right-click quick actions
 - Local dashboard, LAN dashboard, and debug-page shortcuts
@@ -62,6 +64,22 @@ Use `127.0.0.1` only when the game and telemetry app run on the same PC.
 The game sends telemetry while actively driving. Menus, pauses, rewinds, and
 some post-race screens may stop Data Out temporarily; the dashboard will return
 to a waiting state until packets resume.
+
+## Customize the dashboard
+
+Open the dashboard and select the sliders button in the header. Changes preview
+immediately and are saved in that browser, so the local PC, a phone, and a LAN
+tablet can each use a different setup.
+
+Customization includes:
+
+- accent, background, panel, and text colors
+- drag-and-drop panel ordering, with arrow controls for touch and keyboard use
+- individual Race, Driver inputs, Tire temperature, G meter, and Connection panels
+- optional power, torque, and boost data
+- digital or analog speedometer modes
+- an optional realtime clock synchronized with the viewing device's system time
+- one-click reset to the default layout and theme
 
 ## Tray controls
 

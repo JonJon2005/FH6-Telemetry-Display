@@ -44,6 +44,10 @@ The G meter divides the protocol's likely acceleration values by standard gravit
 
 - **MPH/KMH** switches speed units and remembers the selection locally in that browser.
 - **°C/°F** switches tire-temperature units and remembers the selection.
+- The sliders button opens dashboard customization. Colors, panel order, panel
+  visibility, engine-output visibility, and digital/analog speedometer mode are
+  saved locally in that browser.
+- The optional realtime clock follows the viewing device's system time and locale.
 - The corner-frame button enters or exits browser fullscreen where supported.
 - **Debug** opens the Phase 5/10 engineering page.
 
@@ -81,6 +85,10 @@ The dashboard deliberately avoids landing-page styling. It uses flat charcoal su
 
 ## Verification
 
-The Phase 8 test pass contains 68 tests. Dashboard-specific checks cover routing, assets, unique element IDs, safe button markup, JavaScript element references, production-stream usage, reconnect fallback, animation smoothing, reduced motion, desktop/mobile/landscape breakpoints, and the prohibited visual patterns above.
+The automated suite contains 84 tests. Dashboard-specific checks cover routing,
+assets, unique element IDs, safe button markup, JavaScript element references,
+customization persistence, speedometer modes, the realtime clock, production-stream
+usage, reconnect fallback, animation smoothing, reduced motion, responsive
+breakpoints, and the prohibited visual patterns above.
 
 An end-to-end 2× replay delivered all 410 capture packets to the service. The dashboard HTML, CSS, and JavaScript each returned HTTP 200; the production sequence reached 410 and exposed live speed, gear, RPM, inputs, tires, motion, and race data. JavaScript syntax validation also passed.

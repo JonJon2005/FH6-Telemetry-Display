@@ -34,8 +34,8 @@ def test_debug_page_api_health_and_redirect() -> None:
         dashboard_css = client.get("/static/dashboard.css")
         assert dashboard_css.status_code == 200
         assert "gradient" not in dashboard_css.text.lower()
-        assert "orientation:landscape" in dashboard_css.text
-        assert "max-width:680px" in dashboard_css.text
+        assert "orientation: landscape" in dashboard_css.text
+        assert "max-width: 680px" in dashboard_css.text
         dashboard_js = client.get("/static/dashboard.js")
         assert dashboard_js.status_code == 200
         assert "/ws/telemetry" in dashboard_js.text
